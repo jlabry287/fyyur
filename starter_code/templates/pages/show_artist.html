@@ -71,8 +71,28 @@
 		{% endfor %}
 	</div>
 </section>
+<section>
+    <a href='/artists/{{ artist.id }}/edit'><button class="btn btn-primary btn-lg">Edit Artist</button></a>
+    <button type="submit" onclick="deleteArtist(this)" data-id="{{ artist.id }}" class="btn btn-primary btn-lg">Delete Artist</button>
+</section>
+<script>
+    function deleteArtist(e) {
+        const artist_id = e.dataset.id;
+        const request_delete = new XMLHttpRequest();
 
-<a href="/artists/{{ artist.id }}/edit"><button class="btn btn-primary btn-lg">Edit</button></a>
+        const url = `/artists/${artist_id}/delete`;
+        request_delete.open('GET', url);    
+        request_delete.onload = () => {
+            const data = JSON.parse(request_delete.responseText);
+            if (data['deleted'] == true) {
+                window.location.href = data['url'];
+            }
+        }
+        request_delete.send( null );
+        return false;
+
+    }
+</script>
 
 {% endblock %}
 

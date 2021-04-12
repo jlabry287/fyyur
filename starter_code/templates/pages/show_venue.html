@@ -73,9 +73,31 @@
 		</div>
 		{% endfor %}
 	</div>
+</section><section>
+    <a href='/venues/{{ venue.id }}/edit'><button class="btn btn-primary btn-lg">Edit Venue</button></a>
+    <button type="submit" id="delete-venue" onclick="deleteVenue(this)" data-id="{{ venue.id }}" class="btn btn-primary btn-lg">Delete Venue</button>
 </section>
+<script>
+    function deleteVenue(e) {
+        const venue_id = e.dataset.id;
+        const request_delete = new XMLHttpRequest();
 
-<a href="/venues/{{ venue.id }}/edit"><button class="btn btn-primary btn-lg">Edit</button></a>
+        const url = `/venues/${venue_id}/delete`;
+        request_delete.open('GET', url);    
+
+        request_delete.onload = () => {
+            const data = JSON.parse(request_delete.responseText);
+            
+            if (data['deleted'] == true) {
+                window.location.href = data['url'];
+            }
+        }
+
+        request_delete.send( null );
+        return false;
+
+    }
+</script>
 
 {% endblock %}
 

@@ -58,6 +58,7 @@
           </div>
       
       <input type="submit" value="Edit Venue" class="btn btn-primary btn-lg btn-block">
+      {{ form.csrf_token() }}
     </form>
   </div>
 {% endblock %}
